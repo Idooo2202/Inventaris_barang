@@ -1,19 +1,232 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DooApp - Modern Inventory</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
-  <h1>latihan</h1>
 
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam,
-    similique?
-  </p>
+    <div class="ambient-glow top-glow"></div>
+    <div class="ambient-glow bottom-glow"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                Doo<span>App</span>.
+            </div>
+            
+            <ul class="nav-menu desktop-menu">
+                <li><a href="#features">Fitur</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li class="separator"></li>
+                <li><a href="#" class="btn-text">Login</a></li>
+                <li><a href="#" class="btn btn-primary btn-sm">Register</a></li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+
+        <div class="mobile-menu">
+            <a href="#features" class="mobile-link">Fitur</a>
+            <a href="#contact" class="mobile-link">Contact Us</a>
+            <a href="#" class="mobile-link">Login</a>
+            <a href="#" class="btn btn-primary full-width" style="text-align:center">Register</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <span class="badge">✨ Inventaris Modern</span>
+            <h1>Kelola Aset Tanpa <br> <span class="text-gradient">Batas & Hambatan.</span></h1>
+            <p>Sistem manajemen stok yang elegan, cepat, dan aman. Tinggalkan cara lama, beralih ke DooApp.</p>
+            
+            <div class="cta-group">
+                <a href="#" class="btn btn-primary">Mulai Sekarang</a>
+                <a href="#features" class="btn btn-secondary">Pelajari Fitur</a>
+            </div>
+
+            <div class="dashboard-mockup">
+                <div class="screen-glare"></div>
+                <div class="mockup-content">
+                    <aside class="mock-sidebar">
+                        <div class="mock-logo"></div>
+                        <div class="mock-nav-item active"></div>
+                        <div class="mock-nav-item"></div>
+                        <div class="mock-nav-item"></div>
+                    </aside>
+                    <main class="mock-main">
+                        <div class="mock-header">
+                            <div class="mock-title">Dashboard Overview</div>
+                            <div class="mock-user"></div>
+                        </div>
+                        <div class="mock-stats-grid">
+                            <div class="mock-stat-card">
+                                <span>Total Barang</span>
+                                <h3>1,240</h3>
+                                <div class="stat-indicator up">+12%</div>
+                            </div>
+                            <div class="mock-stat-card">
+                                <span>Stok Menipis</span>
+                                <h3 class="danger">14</h3>
+                                <div class="stat-indicator down">Action</div>
+                            </div>
+                            <div class="mock-stat-card">
+                                <span>Nilai Aset</span>
+                                <h3>Rp 850jt</h3>
+                                <div class="stat-indicator neutral">Stabil</div>
+                            </div>
+                        </div>
+                        <div class="mock-chart-area">
+                            <div class="mock-chart-header">Pergerakan Stok (7 Hari)</div>
+                            <div class="mock-bars">
+                                <div class="bar" style="height: 40%"></div>
+                                <div class="bar" style="height: 70%"></div>
+                                <div class="bar active" style="height: 100%"></div>
+                                <div class="bar" style="height: 50%"></div>
+                                <div class="bar" style="height: 80%"></div>
+                                <div class="bar" style="height: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="mock-table-row header">
+                            <span>Nama Item</span>
+                            <span>Kategori</span>
+                            <span>Stok</span>
+                            <span>Status</span>
+                        </div>
+                        <div class="mock-table-row">
+                            <span>Macbook Pro M2</span>
+                            <span>Elektronik</span>
+                            <span>24</span>
+                            <span class="badge-success">Aman</span>
+                        </div>
+                        <div class="mock-table-row">
+                            <span>Kursi Kantor</span>
+                            <span>Furniture</span>
+                            <span>04</span>
+                            <span class="badge-danger">Restock</span>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="section features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Mengapa DooApp?</h2>
+                <p>Teknologi canggih dibalut antarmuka sederhana.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="card">
+                    <div class="icon-box">📊</div>
+                    <h3>Analitik Real-Time</h3>
+                    <p>Pantau pergerakan stok masuk dan keluar secara langsung dengan visualisasi data interaktif.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-box">🔒</div>
+                    <h3>Keamanan Enkripsi</h3>
+                    <p>Data aset berharga Anda disimpan dengan standar keamanan tinggi dan backup otomatis.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-box">⚡</div>
+                    <h3>Automasi Laporan</h3>
+                    <p>Unduh laporan bulanan dalam satu klik dan atur notifikasi stok menipis secara otomatis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container contact-wrapper">
+            <div class="contact-text">
+                <h2>Siap Transformasi Bisnis?</h2>
+                <p>Hubungi kami untuk demo eksklusif.</p>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Nama Lengkap" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email Perusahaan" required>
+                </div>
+                <div class="form-group">
+                    <textarea rows="4" placeholder="Pesan Anda..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Kirim Pesan</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 DooApp Inventory System.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Mobile Menu Logic
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active'); // Animasi icon jadi X
+            mobileMenu.classList.toggle('active'); // Tampilkan menu
+        });
+
+        // Tutup menu saat link diklik
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // 2. Mouse Tilt (Hero)
+        const dashboard = document.querySelector('.dashboard-mockup');
+        const heroSection = document.querySelector('.hero');
+        heroSection.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 25;
+            const y = (window.innerHeight / 2 - e.pageY) / 25;
+            dashboard.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            dashboard.style.transition = "transform 0.5s ease";
+            dashboard.style.transform = `perspective(1000px) rotateY(0deg) rotateX(5deg)`;
+            setTimeout(() => { dashboard.style.transition = "transform 0.1s ease-out"; }, 500);
+        });
+
+        // 3. Parallax & Reveal
+        const topGlow = document.querySelector('.top-glow');
+        const bottomGlow = document.querySelector('.bottom-glow');
+        const revealElements = document.querySelectorAll('.card, .contact-wrapper, .section-header');
+        
+        revealElements.forEach(el => el.classList.add('reveal-up'));
+
+        window.addEventListener('scroll', () => {
+            let scrollY = window.scrollY;
+            topGlow.style.transform = `translateY(${scrollY * 0.5}px)`;
+            bottomGlow.style.transform = `translateY(${-scrollY * 0.2}px)`;
+
+            const windowHeight = window.innerHeight;
+            revealElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 150) {
+                    el.classList.add('active');
+                }
+            });
+        });
+    </script>
+
 </body>
-
 </html>
