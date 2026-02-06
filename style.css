@@ -1,10 +1,9 @@
-/* --- CONFIG & VARIABLES --- */
+
 :root {
-  --bg-void: #050505; /* Sedikit lebih terang dari hitam mati agar contrast lebih soft */
+  --bg-void: #050505;
   --text-white: #ffffff;
   --text-grey: #94a3b8;
 
-  /* HIGH CONTRAST NEON */
   --neon-cyan: #00f0ff;
   --neon-pink: #ff0055;
   --neon-purple: #bd00ff;
@@ -22,16 +21,18 @@
   cursor: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--bg-void);
   color: var(--text-white);
   font-family: var(--font-main);
   overflow-x: hidden;
-  /* Smooth scroll behavior */
-  scroll-behavior: smooth;
 }
 
-/* --- 1. BACKGROUND (Fixed Pointer Events) --- */
+/* --- 1. BACKGROUND--- */
 .aurora-container {
   position: fixed;
   top: 0;
@@ -41,7 +42,7 @@ body {
   z-index: -1;
   overflow: hidden;
   background: #000;
-  pointer-events: none; /* KRUSIAL: Agar background tidak memblokir klik mouse */
+  pointer-events: none;
 }
 .aurora-blob {
   position: absolute;
@@ -50,7 +51,7 @@ body {
   opacity: 0.6;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   mix-blend-mode: screen;
-  will-change: transform; /* Optimasi Rendering */
+  will-change: transform;
 }
 .b1 {
   width: 50vw;
