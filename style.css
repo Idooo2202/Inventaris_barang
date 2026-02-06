@@ -1,0 +1,861 @@
+/* --- CONFIG & VARIABLES --- */
+:root {
+  --bg-void: #050505; /* Sedikit lebih terang dari hitam mati agar contrast lebih soft */
+  --text-white: #ffffff;
+  --text-grey: #94a3b8;
+
+  /* HIGH CONTRAST NEON */
+  --neon-cyan: #00f0ff;
+  --neon-pink: #ff0055;
+  --neon-purple: #bd00ff;
+
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-surface: rgba(255, 255, 255, 0.03);
+
+  --font-main: "Space Grotesk", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--text-white);
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  /* Smooth scroll behavior */
+  scroll-behavior: smooth;
+}
+
+/* --- 1. BACKGROUND (Fixed Pointer Events) --- */
+.aurora-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  background: #000;
+  pointer-events: none; /* KRUSIAL: Agar background tidak memblokir klik mouse */
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  mix-blend-mode: screen;
+  will-change: transform; /* Optimasi Rendering */
+}
+.b1 {
+  width: 50vw;
+  height: 50vw;
+  background: var(--neon-purple);
+  top: -20%;
+  left: -20%;
+}
+.b2 {
+  width: 40vw;
+  height: 40vw;
+  background: var(--neon-cyan);
+  bottom: -10%;
+  right: -10%;
+}
+.b3 {
+  width: 30vw;
+  height: 30vw;
+  background: var(--neon-pink);
+  top: 40%;
+  left: 40%;
+  opacity: 0.4;
+}
+
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJ4Ij48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI3gpIi8+PC9zdmc+");
+}
+
+/* --- 2. CURSOR --- */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s;
+}
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid white;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition:
+    width 0.2s,
+    height 0.2s,
+    background 0.2s,
+    transform 0.2s;
+}
+body.hovering .cursor-ring {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border: none;
+  opacity: 0.8;
+}
+body.hovering .cursor-dot {
+  transform: scale(0);
+} /* Sembunyikan dot saat hover */
+
+/* --- 3. NAVBAR --- */
+.navbar {
+  position: fixed;
+  top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: none; /* Wrapper pass-through */
+}
+.nav-glass {
+  pointer-events: auto; /* Isi navbar bisa diklik */
+  background: rgba(10, 10, 10, 0.45);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  padding: 15px 40px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+.blink {
+  animation: blink 1s infinite;
+  color: var(--neon-cyan);
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-grey);
+  font-weight: 500;
+  transition: 0.3s;
+  margin: 0 10px;
+}
+.nav-links a:hover {
+  color: white;
+  text-shadow: 0 0 10px white;
+}
+.nav-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.btn-text {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-glitch {
+  position: relative;
+  color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan);
+  padding: 10px 25px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  overflow: hidden;
+  transition: 0.3s;
+}
+.btn-glitch:hover {
+  background: var(--neon-cyan);
+  color: black;
+  box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+/* --- 4. HERO SECTION (BRUTALISM) --- */
+.hero {
+  min-height: 100vh;
+  padding-top: 100px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--glass-border);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.live-icon {
+  width: 8px;
+  height: 8px;
+  background: #00ff00;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ff00;
+  animation: blink 0.5s infinite;
+}
+
+.glitch-header {
+  font-size: 5rem;
+  line-height: 0.9;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px white;
+}
+.hero-desc {
+  font-size: 1.2rem;
+  color: var(--text-grey);
+  max-width: 450px;
+  margin-bottom: 50px;
+  line-height: 1.6;
+}
+
+/* 3D TILT WRAPPER */
+.hero-visual {
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+.tilt-wrapper {
+  position: relative;
+  width: 450px;
+  height: 550px;
+  transform-style: preserve-3d; /* Key for Brutal 3D */
+  will-change: transform;
+}
+
+/* Glass Panels */
+.glass-panel {
+  position: absolute;
+  border-radius: 30px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+.back {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.01)
+  );
+  transform: translateZ(-50px);
+}
+.mid {
+  width: 90%;
+  height: 60%;
+  top: 20%;
+  left: -10%;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 30, 40, 0.9),
+    rgba(10, 10, 10, 0.95)
+  );
+  border: 1px solid var(--neon-cyan);
+  transform: translateZ(50px);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* UI Elements inside Panel */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #555;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+.dots span:first-child {
+  background: var(--neon-pink);
+}
+.line {
+  width: 50px;
+  height: 2px;
+  background: #333;
+}
+.big-stat {
+  display: flex;
+  flex-direction: column;
+}
+.big-stat .label {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--text-grey);
+}
+.big-stat .value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 20px var(--neon-cyan);
+}
+
+.waveform {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  height: 40px;
+}
+.wave-bar {
+  flex: 1;
+  background: var(--neon-cyan);
+  height: 100%;
+  animation: wave 1s infinite ease-in-out alternate;
+}
+.wave-bar:nth-child(odd) {
+  animation-duration: 1.2s;
+  background: var(--neon-purple);
+}
+
+/* Floating Widgets */
+.float-widget {
+  position: absolute;
+  background: #111;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+.w1 {
+  top: 0;
+  right: -50px;
+  transform: translateZ(100px);
+}
+.w2 {
+  bottom: 50px;
+  right: -80px;
+  transform: translateZ(150px);
+}
+.icon-box {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.neon-blue {
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid var(--neon-cyan);
+}
+.neon-pink {
+  background: rgba(255, 0, 85, 0.1);
+  border: 1px solid var(--neon-pink);
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+/* --- 5. BENTO GRID & CSS BARCODE --- */
+.section {
+  padding: 150px 0;
+  position: relative;
+  z-index: 1;
+}
+.section-head {
+  margin-bottom: 80px;
+  text-align: center;
+}
+.section-head h2 {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.bento-card {
+  background:  rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 40px;
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  backdrop-filter: blur(10px);
+}
+.bento-card:hover {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 0, 0, 0.6);
+}
+.wide {
+  grid-column: span 2;
+}
+.card-content {
+  position: relative;
+  z-index: 2;
+}
+.card-content h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.card-content p {
+  color: var(--text-grey);
+}
+
+/* CSS BARCODE (No Image Needed) */
+.visual-scan {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+.barcode-stripe {
+  width: 200px;
+  height: 100px;
+  background: repeating-linear-gradient(
+    90deg,
+    #fff 0px,
+    #fff 2px,
+    transparent 2px,
+    transparent 4px,
+    #fff 4px,
+    #fff 8px
+  );
+  opacity: 0.9;
+  transform: rotate(-5deg);
+}
+.laser-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #ff0000;
+  box-shadow: 0 0 20px #ff0000;
+  animation: scan 2s infinite linear;
+}
+
+/* --- NEW VISUALS FOR FEATURES --- */
+
+/* 1. GLOBAL TRACKING VISUAL (Map Grid & Radar) */
+.visual-map-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 65%; /* Mengisi bagian bawah kartu */
+  overflow: hidden;
+  border-radius: 0 0 24px 24px;
+  opacity: 0.8;
+}
+
+/* Grid Latar Belakang ala Peta Digital */
+.map-grid {
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(500px) rotateX(40deg) scale(1.5); /* Efek 3D Miring */
+  transform-origin: bottom center;
+  opacity: 0.5;
+}
+
+/* Lingkaran Radar */
+.radar-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+}
+.radar-circle::before {
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 100px; height: 100px; border: 1px solid rgba(0, 240, 255, 0.5); border-radius: 50%;
+}
+
+/* Putaran Radar */
+.radar-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  width: 180px;
+  height: 180px;
+  background: conic-gradient(from 0deg, transparent 0%, transparent 80%, rgba(0, 240, 255, 0.6) 100%);
+  border-radius: 50%;
+  animation: radarSpin 3s linear infinite;
+}
+
+/* Titik Lokasi */
+.map-pin {
+  position: absolute; width: 8px; height: 8px; background: white; border-radius: 50%;
+  box-shadow: 0 0 10px white;
+}
+.p1 { top: 60%; left: 30%; animation: blink 2s infinite; }
+.p2 { top: 40%; right: 30%; animation: blink 3s infinite; }
+.p3 { bottom: 30%; left: 50%; animation: blink 1.5s infinite; }
+
+
+/* 2. AUTO REPORT VISUAL (Glowing Document) */
+.visual-report-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.doc-file {
+  position: relative;
+  width: 100px;
+  height: 130px;
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid var(--text-grey);
+  border-radius: 12px;
+  transform: rotate(-10deg) translate(-20px, -10px);
+  overflow: hidden;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+/* Efek Hover pada Kartu Report */
+.bento-card:hover .doc-file {
+  transform: rotate(0deg) translate(-20px, -20px) scale(1.05);
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 30px rgba(255, 0, 85, 0.2);
+}
+
+.doc-header {
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.doc-lines {
+  margin-top: 15px;
+  margin-left: 15px;
+  width: 60%;
+  height: 2px;
+  background: var(--text-grey);
+  box-shadow: 
+    0 10px 0 var(--text-grey),
+    0 20px 0 var(--text-grey),
+    0 30px 0 var(--text-grey);
+}
+
+.doc-badge {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: var(--neon-pink);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Efek Cahaya Belakang Dokumen */
+.doc-glow {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  width: 80px;
+  height: 100px;
+  background: var(--neon-pink);
+  filter: blur(40px);
+  opacity: 0.3;
+  z-index: 1;
+}
+
+@keyframes radarSpin {
+  from { transform: translate(-50%, -10%) rotate(0deg); }
+  to { transform: translate(-50%, -10%) rotate(360deg); }
+}
+
+/* --- 6. CONTACT FORM --- */
+.liquid-glass-form {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  padding: 80px;
+  text-align: center;
+  overflow: hidden;
+}
+.form-bg-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.1), transparent 70%);
+  animation: rotate 10s infinite linear;
+  pointer-events: none;
+}
+.cyber-form {
+  margin-top: 40px;
+  display: grid;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+.input-row {
+  position: relative;
+}
+.cyber-form input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+  padding: 20px;
+  color: white;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: 0.3s;
+}
+.focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--neon-cyan);
+  transition: 0.3s;
+  box-shadow: 0 0 10px var(--neon-cyan);
+}
+.btn-contact {
+  width: 100%;
+  background: var(--neon-cyan);
+  color: black;
+  border: none;
+  padding: 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;
+}
+.cyber-form input:focus ~ .focus-border {
+  width: 100%;
+}
+.btn-primary {
+  width: 9.5vw;
+  background: var(--neon-cyan);
+  color: black;
+  border: none;
+  padding: 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 40px var(--neon-cyan);
+  transform: scale(1.02);
+}
+
+/* --- 7. FOOTER --- */
+
+.container-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.3rem;
+}
+
+footer {
+  width: 20rem;
+  height: 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: #333;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  font-size: 0.9rem;
+  margin-top: 40px;
+  border-radius: 50px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes wave {
+  0% {
+    height: 20%;
+  }
+  100% {
+    height: 100%;
+  }
+}
+@keyframes scan {
+  0% {
+    top: 10%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 90%;
+    opacity: 0;
+  }
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 768px) {
+  .navbar {
+    top: 0;
+    padding: 10px;
+  }
+  .nav-glass {
+    padding: 10px 20px;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .nav-links {
+    display: none;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-visual {
+    height: 400px;
+    margin-top: 50px;
+  }
+  .tilt-wrapper {
+    width: 100%;
+    transform: none !important;
+  } /* Disable 3D on mobile */
+  .glass-panel {
+    transform: none !important;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 0 auto;
+    left: auto;
+    top: auto;
+  }
+  .float-widget {
+    display: none;
+  } /* Too heavy for mobile */
+
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .wide {
+    grid-column: auto;
+  }
+
+  .glitch-header {
+    font-size: 3rem;
+  }
+  .btn-primary {
+    width: 100%;
+  }
+  /* Reset blobs for performance */
+  .aurora-blob {
+    filter: blur(40px);
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .glass-panel.back.brutal-layer {
+    display: none;
+  }
+}
